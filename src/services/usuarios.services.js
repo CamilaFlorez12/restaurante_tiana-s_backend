@@ -23,7 +23,7 @@ export async function registrarUsuario(datos) {
 
     const contraCifrada = await bcrypt.hash(contrasenia, parseInt(process.env.SALT_ROUNDS));
 
-    const rolFinal = rol === "admin" ? "usuario" : rol
+    const rolFinal = "usuario";
     
 
     const usuario = {
