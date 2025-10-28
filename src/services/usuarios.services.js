@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import express from "express";
+import { ObjectId } from "mongodb";
 
 dotenv.config();
 const COLECCION_USUARIOS = "usuarios";
@@ -54,4 +55,19 @@ return {id: usuarioExistente._id,
     rol: usuarioExistente.rol,
     token
 };
+}
+
+export async function listarUsuarios() {
+    const usuarios = await obtenerDB().collection(COLECCION_USUARIOS).find().toArray();
+    return usuarios;
+}
+
+export async function actualizarUsuario(id,datos) {
+    const resultado = await obtenerDB().collection(COLECCION_USUARIOS).findOne({_id:new ObjectId(id)},{$set:datos});
+    return resultado.matchedCount > 0;
+}
+
+export async function eliminarUsuario(id) {
+    const resultado = await obtenerDB().collection(COLECCION_USUARIOS).deleteOne({_id:new ObjectId(id)});
+    return resultado.deletedCount > 0
 }

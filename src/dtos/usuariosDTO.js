@@ -11,3 +11,10 @@ export const iniciarSesionDTO = [
     body("correo").isEmail().trim().notEmpty().withMessage("Debe proporcionar un correo electrónico válido"),
     body("contrasenia").isString().trim().isLength({min:6}).withMessage("La contraseña debe tener al menos 6 caracteres")
 ]
+
+export const actualizarUsuarioDTO = [
+    body("nombre").optional().isString().trim().withMessage("El nombre es un campo obligatorio"),
+    body("apellido").optional().isString().trim().withMessage("El apellido es un campo requerido"),
+    body("correo").optional().isEmail().withMessage("Debe proporcionar un correo electrónico válido"),
+    body("contrasenia").optional().isString().trim().isLength({min:6}).withMessage("La contraseña debe tener al menos 6 caracteres")
+]
