@@ -1,4 +1,4 @@
-import {body,params} from "express-validator";
+import {body,param} from "express-validator";
 
 export const registrarRestauranteDTO = [
     body("nombre").isString().trim().notEmpty().withMessage("El nombre es un campo obligatorio"),
