@@ -4,7 +4,9 @@ import {
     listarRestaurantes,
     listarRestaurante,
     actualizarRestaurante,
-    eliminarRestaurante
+    eliminarRestaurante,
+    listarRestaurantesOrden,
+    filtrarRestaurantesCategoria
 } from "../services/restaurantes.services.js";
 
 export async function registroRestaurante(req, res, next) {
@@ -52,5 +54,25 @@ export async function eliminacionRestaurante(req,res,next) {
         res.status(200).json(restauranteEliminado);
     } catch (error) {
         res.status(500).json({error:error.message})
+    }
+}
+
+export async function obtenerRestaurantesOrdenados(req, res, next) {
+    try {
+        const { tipo } = req.query;
+        const restaurantes = await listarRestaurantesOrden(tipo);
+        res.status(200).json(restaurantes);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export async function filtroRestaurantesCategoria(req, res, next) {
+    try {
+        const { categoria } = req.query;
+        const restaurantes = await filtrarRestaurantesCategoria(categoria);
+        res.status(200).json(restaurantes);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 }
