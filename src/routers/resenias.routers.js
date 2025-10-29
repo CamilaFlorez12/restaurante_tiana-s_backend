@@ -1,13 +1,17 @@
 import { Router } from "express";
-import { registrarReseniaDTO,editarReseniaDTO } from "../dtos/reseniasDTO";
-import { registroResenia,edicionResenia,eliminacionResenia,likeResenia,obtenerRankingPlato} from "../controllers/resenias.controllers";
-import { verificarRol } from "../middlewares/verificacionRoles.middleware";
-import { autenticacionMiddleware } from "../middlewares/autenticacion.middleware";
+import { registrarReseniaDTO,editarReseniaDTO } from "../dtos/reseniasDTO.js";
+import { registroResenia,edicionResenia,eliminacionResenia,likeResenia,obtenerRankingPlato} from "../controllers/resenias.controllers.js";
+import { verificarPermiso } from "../middlewares/verificacionRoles.middleware.js";
+import { autenticacionMiddleware } from "../middlewares/autenticacion.middleware.js";
+import { validationRequest } from "../middlewares/validatorDTO.js";
+import { valid } from "semver";
 
 const router = Router();
 
-router.post("/",autenticacionMiddleware,verificarRol("usuario"),registrarReseniaDTO,registroResenia);
-router.patch("/:id",autenticacionMiddleware,verificarRol("usuario"),editarReseniaDTO,edicionResenia);
-router.delete("/:id",autenticacionMiddleware,verificarRol("usuario"),eliminacionResenia);
-router.post("/:id/like",autenticacionMiddleware,verificarRol("usuario"),likeResenia);
-router.get("/ranking/:platoId",autenticacionMiddleware,verificarRol("usuario"),obtenerRankingPlato);
+router.post("/",autenticacionMiddleware,verificarPermiso("registrarResenia"),registrarReseniaDTO,validationRequest,registroResenia);
+router.patch("/:id",autenticacionMiddleware,verificarPermiso("editarResenia"),editarReseniaDTO,validationRequest,edicionResenia);
+router.delete("/:id",autenticacionMiddleware,verificarPermiso("eliminarResenia"),validationRequest,eliminacionResenia);
+router.post("/:id/like",autenticacionMiddleware,verificarPermiso("darLike"),validationRequest,likeResenia);
+router.get("/ranking/:platoId",autenticacionMiddleware,verificarPermiso("votar"),validationRequest,obtenerRankingPlato);  //TODOS LOS PERMISOS SON PARA EL USER
+
+export default router;

@@ -1,4 +1,4 @@
-import { obtenerDB } from "../config/db";;
+import { obtenerDB } from "../config/db.js";
 import dotenv from "dotenv";
 import { ObjectId } from "mongodb";
 
@@ -6,9 +6,9 @@ dotenv.config();
 const COLECCION_RESENIAS = "resenias";
 
 export async function crearResenia(datos){
-    const {comentario, calificacion, platoId, usuarioId} = datos;
+    const {comentario, calificacion, platoId,restauranteId, usuarioId} = datos;
 
-    if(!comentario || !calificacion || !platoId || !usuarioId){
+    if(!comentario || !calificacion || !platoId || !usuarioId || !restauranteId){
         throw new Error("Falta algún campo");
     }
 
@@ -21,6 +21,7 @@ export async function crearResenia(datos){
         calificacion,
         platoId,
         usuarioId,
+        restauranteId,
         likes:[],
         fecha: new Date()
     }

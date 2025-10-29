@@ -1,4 +1,4 @@
-import { obtenerDetalleRestaurante } from "../services/detalleRestaurante.services";
+import { obtenerDetalleRestaurante } from "../services/detalleRestaurante.services.js";
 
 export async function detalleRestaurante(req, res, next) {
     try {

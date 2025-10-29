@@ -3,7 +3,7 @@ import { json } from "express";
 import {
     listarRestaurantes,
     filtrarRestaurantesCategoria
-} from "../../filtros.services";
+} from "../services/filtros.services.js";
 
 export async function obtenerRestaurantesOrdenados(req, res, next) {
     try {

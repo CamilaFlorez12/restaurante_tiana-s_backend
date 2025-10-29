@@ -1,12 +1,11 @@
-import { obtenerDB } from "../config/db";;
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { obtenerDB } from "../config/db.js";
 import dotenv from "dotenv";
-import express from "express";
 import { ObjectId } from "mongodb";
 
 dotenv.config();
 const COLECCION_RESTAURANTES = "restaurantes";
+export const CATEGORIAS = ["Comida rápida", "Gourmet", "Vegetariano", "Sushi"];
+
 
 export async function registrarRestaurantes(datos) {
     const {nombre,descripcion,categoria,ubicacion, likes = []} = datos;
@@ -14,7 +13,11 @@ export async function registrarRestaurantes(datos) {
         throw new Error("Falta algún campo");
     }
 
-    const restauranteExistente = await obtenerDB().collection(COLECCION_RESTAURANTES).fidOne({nombre});
+    if(!CATEGORIAS.includes(categoria)){
+        throw new Error("Categoria no válida")
+    }
+
+    const restauranteExistente = await obtenerDB().collection(COLECCION_RESTAURANTES).findOne({nombre});
     if(restauranteExistente) throw new Error("El restaurante ya existe");
 
     const nuevoRestaurante = {
@@ -52,5 +55,5 @@ export async function actualizarRestaurante(id,datos){
 
 export async function eliminarRestaurante(id) {
     const resultado = await obtenerDB().collection(COLECCION_RESTAURANTES).deleteOne({_id:new ObjectId(id)});
-    return resultado.deletedcount > 0;
+    return resultado.deletedCount > 0;
 }

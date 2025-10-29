@@ -27,7 +27,8 @@ export async function verRestaurantes(req, res, next) {
 
 export async function verUnRestaurante(req, res, next) {
     try {
-        const restaurantes = await listarRestaurante();
+        const restaurantes = await listarRestaurante(req.params.id);
+        if(!restaurantes) return res.status(404).json({error:"Restaurante no encontrado"})
         res.status(200).json(restaurantes);
     } catch (error) {
         res.status(500).json({error:error.message})
@@ -37,7 +38,7 @@ export async function verUnRestaurante(req, res, next) {
 export async function actualizacionRestaurante(req,res,next){
     try {
         const restauranteActualizado = await actualizarRestaurante(req.params.id,req.body);
-        if(!usuarioActualizado) return res.status(404).json({error:"Restaurante no encontrado"});
+        if(!restauranteActualizado) return res.status(404).json({error:"Restaurante no encontrado"});
         res.status(200).json(restauranteActualizado);
     } catch (error) {
         res.status(500).json({error:error.message})

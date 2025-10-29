@@ -1,4 +1,4 @@
-import { obtenerDB } from "../config/db";;
+import { obtenerDB } from "../config/db.js";
 import dotenv from "dotenv";
 import { ObjectId } from "mongodb";
 

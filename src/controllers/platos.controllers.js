@@ -18,8 +18,8 @@ export async function registroPlato(req, res, next) {
 
 export async function verPlatos(req, res, next) {
     try {
-        const paltos = await listarPlatos();
-        res.status(200).json(usuarios);
+        const platos = await listarPlatos();
+        res.status(200).json(platos);
     } catch (error) {
         res.status(500).json({error:error.message})
     }
@@ -27,7 +27,8 @@ export async function verPlatos(req, res, next) {
 
 export async function verUnPlato(req, res, next) {
     try {
-        const plato = await listarPlato();
+        const plato = await listarPlato(req.params.id);
+        if(!plato) return res.status(404).json({error:"Plato no encontrado"})
         res.status(200).json(plato);
     } catch (error) {
         res.status(500).json({error:error.message})

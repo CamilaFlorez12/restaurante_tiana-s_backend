@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { validationRequest } from "../middlewares/validatorDTO.js";
 import{
     obtenerRestaurantesOrdenados,
     filtrarRestaurantesCategoria
@@ -6,5 +7,7 @@ import{
 
 const router = Router();
 
-router.get("/orden",obtenerRestaurantesOrdenados);
-router.get("/categoria", filtrarRestaurantesCategoria)
+router.get("/orden",validationRequest,obtenerRestaurantesOrdenados);
+router.get("/categoria",validationRequest, filtrarRestaurantesCategoria)
+
+export default router;

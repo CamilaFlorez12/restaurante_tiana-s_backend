@@ -38,7 +38,7 @@ export async function verUsuarios(req, res, next) {
 
 export async function actualizacionUsuario(req,res,next){
     try {
-        const usuarioActualizado = await actualizacionUsuario(req.params.id,req.body);
+        const usuarioActualizado = await actualizarUsuario(req.params.id,req.body);
         if(!usuarioActualizado) return res.status(404).json({error:"Usuario no encontrado"});
         res.status(200).json(usuarioActualizado);
     } catch (error) {

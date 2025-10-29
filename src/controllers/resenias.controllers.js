@@ -5,7 +5,7 @@ import {
     eliminarResenia,
     darLikeResenia,
     calcularRankingPlato
-} from "../servicces/resenias.services.js";
+} from "../services/resenias.services.js";
 
 export async function registroResenia(req, res, next) {
     try {

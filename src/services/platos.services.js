@@ -1,8 +1,5 @@
-import { obtenerDB } from "../config/db";;
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { obtenerDB } from "../config/db.js";
 import dotenv from "dotenv";
-import express from "express";
 import { ObjectId } from "mongodb";
 
 dotenv.config();
