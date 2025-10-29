@@ -23,7 +23,6 @@ export async function registrarUsuario(datos) {
 
     const contraCifrada = await bcrypt.hash(contrasenia, parseInt(process.env.SALT_ROUNDS));
 
-    const rolFinal = "usuario";
     
 
     const usuario = {
@@ -31,7 +30,7 @@ export async function registrarUsuario(datos) {
         apellido,
         correo,
         contrasenia: contraCifrada,
-        rol:rolFinal
+        rol
     }
     const resultado = await obtenerDB().collection(COLECCION_USUARIOS).insertOne(usuario);
     const token = generarToken({_id:resultado.insertedId,rol:rolFinal,correo});

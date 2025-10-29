@@ -9,15 +9,17 @@ import restaurantesRouters from "./routers/restaurantes.routers.js";
 import platosRouters from "./routers/platos.routers.js";
 import reseniasRouters from "./routers/resenias.routers.js";
 import detallesRestauranteRouters from "./routers/detalleRestauarnte.routers.js"
+import passport from "passport";
 
 const app = express();
 const port = process.env.PORT;
 app.use(express.json());
+app.use(passport.initialize());
 
 app.use(cors({
     origin: process.env.FRONTEND_URL,
     methods:["GET","POST","PATCH","DELETE"],
-    allowedHeaders:["Content-Type"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials:false
 }));
 
