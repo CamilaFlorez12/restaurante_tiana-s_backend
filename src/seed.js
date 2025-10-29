@@ -1,4 +1,4 @@
-import { conectarDB, obtenerDB } from "./config/db";
+import { conectarDB, obtenerDB } from "./config/db.js";
 import { ObjectId } from "mongodb";
 
 async function seed() {
