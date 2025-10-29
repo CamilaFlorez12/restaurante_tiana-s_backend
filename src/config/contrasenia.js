@@ -1,7 +1,7 @@
-import passport, { use } from "passport";
+import passport from "passport";
 import { ExtractJwt,Strategy as JwtStrategy } from "passport-jwt";
 import dotenv from "dotenv";
-import { obtenerDB } from "./db";
+import { obtenerDB } from "./db.js";
 import { ObjectId } from "mongodb";
 
 dotenv.config();
