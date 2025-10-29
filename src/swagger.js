@@ -155,38 +155,50 @@ export const swaggerDocument = {
       },
     },
 
-    // 🔍 FILTROS RESTAURANTES
-    "/filtros/orden": {
+    // 🔍 FILTROS RESTAURANTES (CORREGIDO)
+    "/restaurantes/orden": {
       get: {
-        summary: "Obtener restaurantes ordenados por tipo",
-        tags: ["Filtros"],
+        summary: "Obtener restaurantes ordenados por tipo (ranking o popularidad)",
+        tags: ["Restaurantes - Filtros"],
         parameters: [
           {
             name: "tipo",
             in: "query",
             required: false,
-            schema: { type: "string" },
+            schema: {
+              type: "string",
+              enum: ["ranking", "popularidad"],
+              example: "ranking",
+            },
+            description: "Tipo de ordenamiento: ranking o popularidad",
           },
         ],
         responses: {
           200: { description: "Restaurantes ordenados obtenidos" },
+          400: { description: "Tipo de orden inválido" },
         },
       },
     },
-    "/filtros/categoria": {
+    "/restaurantes/categoria": {
       get: {
         summary: "Filtrar restaurantes por categoría",
-        tags: ["Filtros"],
+        tags: ["Restaurantes - Filtros"],
         parameters: [
           {
             name: "categoria",
             in: "query",
             required: true,
-            schema: { type: "string", enum: ["Comida rápida", "Gourmet", "Vegetariano", "Sushi"] },
+            schema: {
+              type: "string",
+              enum: ["Comida rápida", "Gourmet", "Vegetariano", "Sushi"],
+              example: "Sushi",
+            },
+            description: "Categoría de restaurante para filtrar",
           },
         ],
         responses: {
           200: { description: "Restaurantes filtrados por categoría" },
+          400: { description: "Categoría no válida" },
         },
       },
     },
