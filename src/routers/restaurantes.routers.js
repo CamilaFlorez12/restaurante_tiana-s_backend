@@ -9,10 +9,11 @@ const router = Router();
 
 router.post("/",autenticacionMiddleware,verificarPermiso("registrarRestaurante"),registrarRestauranteDTO,validationRequest,registroRestaurante);
 router.get("/",validationRequest,verRestaurantes);
+router.get("/orden",validationRequest,obtenerRestaurantesOrdenados);
+router.get("/categoria",validationRequest, filtroRestaurantesCategoria)
 router.get("/:id",validationRequest,verUnRestaurante);
 router.patch("/:id",autenticacionMiddleware,verificarPermiso("actualizarRestaurante"),actualizarRestauranteDTO,validationRequest,actualizacionRestaurante);
 router.delete("/:id",autenticacionMiddleware,verificarPermiso("eliminarRestaurante"),validationRequest,eliminacionRestaurante);
-router.get("/orden",validationRequest,obtenerRestaurantesOrdenados);
-router.get("/categoria",validationRequest, filtroRestaurantesCategoria)
+
 //TODOS LOS PERMISOS SON PARA EL ADMIN
 export default router;
