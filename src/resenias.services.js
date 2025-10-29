@@ -1,8 +1,5 @@
 import { obtenerDB } from "../config/db";;
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import express from "express";
 import { ObjectId } from "mongodb";
 
 dotenv.config();
@@ -15,11 +12,17 @@ export async function crearResenia(datos){
         throw new Error("Falta algún campo");
     }
 
+    if (calificacion < 1 || calificacion > 5) {
+        throw new Error("La calificación debe estar entre 1 y 5");
+    }
+
     const nuevaResenia = {
         comentario,
         calificacion,
         platoId,
-        usuarioId
+        usuarioId,
+        likes:[],
+        fecha: new Date()
     }
 
     await obtenerDB().collection(COLECCION_RESENIAS).insertOne(nuevaResenia);
@@ -27,11 +30,38 @@ export async function crearResenia(datos){
 }
 
 export async function editarResenia(id,datos) {
-    const resultado = await obtenerDB().collection(COLECCION_RESENIAS).findOne({_id:new ObjectId(id)},{$set:datos});
-    return resultado.matcheCount > 0;
+    const resultado = await obtenerDB().collection(COLECCION_RESENIAS).updateOne({_id:new ObjectId(id)},{$set:datos});
+    return resultado.matchedCount > 0;
 }
 
 export async function eliminarResenia(id){
     const resultado = await obtenerDB().collection(COLECCION_RESENIAS).deleteOne({_id:new ObjectId(id)});
-    return resultado.deleteCount  > 0;
+    return resultado.deletedCount  > 0;
+}
+
+export async function darLikeResenia(reseniaId, usuarioId) {
+    if (!ObjectId.isValid(reseniaId)) throw new Error("ID de reseña no válido");
+
+    const resenia = await obtenerDB().collection(COLECCION_RESENIAS).findOne({_id:new ObjectId(reseniaId)});
+    if(!resenia) throw new Error("Reseña no encontrada");
+
+    if(resenia.usuarioId == usuarioId){
+        throw new Error("No puedes dar like a tu propia reseña");
+    }
+
+    const like = resenia.likes?.includes(usuarioId);
+    const operacion = like?{$pull:{likes:usuarioId}}:{$addToSet:{likes:usuarioId}};
+
+    await obtenerDB().collection(COLECCION_RESENIAS).updateOne({_id:new ObjectId(reseniaId)},operacion);
+    return { message: like ? "Like eliminado" : "Like agregado" };
+}
+
+export async function calcularRankingPlato(platoId) {
+    if(!ObjectId.isValid(platoId)) throw new Error("ID de plato no válido");
+
+    const resultado = await obtenerDB().collection(COLECCION_RESENIAS).aggregate([
+        {$match:{platoId}},
+        {$group:{_id:"$platoId",promedio:{$avg:"$calificacion"}}}
+    ]).toArray();
+  return resultado[0]?.promedio || 0;
 }
