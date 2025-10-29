@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { registrarReseniaDTO,editarReseniaDTO } from "./reseniasDTO";
-import { registroResenia,edicionResenia,eliminacionResenia,likeResenia,obtenerRankingPlato} from "./resenias.controllers";
+import { registrarReseniaDTO,editarReseniaDTO } from "../dtos/reseniasDTO";
+import { registroResenia,edicionResenia,eliminacionResenia,likeResenia,obtenerRankingPlato} from "../controllers/resenias.controllers";
 import { verificarRol } from "../middlewares/verificacionRoles.middleware";
 import { autenticacionMiddleware } from "../middlewares/autenticacion.middleware";
 
