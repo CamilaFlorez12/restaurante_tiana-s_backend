@@ -39,7 +39,11 @@ export async function eliminarResenia(id){
     const resultado = await obtenerDB().collection(COLECCION_RESENIAS).deleteOne({_id:new ObjectId(id)});
     return resultado.deletedCount  > 0;
 }
-
+export async function obtenerResenias() {
+    const resenias = await obtenerDB().collection("resenias").find().toArray();
+    return resenias;
+  }
+  
 export async function darLikeResenia(reseniaId, usuarioId) {
     if (!ObjectId.isValid(reseniaId)) throw new Error("ID de reseña no válido");
   if (!usuarioId) throw new Error("usuarioId es requerido");

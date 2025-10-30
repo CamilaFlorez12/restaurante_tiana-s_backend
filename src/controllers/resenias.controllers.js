@@ -4,7 +4,8 @@ import {
     editarResenia,
     eliminarResenia,
     darLikeResenia,
-    calcularRankingPlato
+    calcularRankingPlato,
+    obtenerResenias
 } from "../services/resenias.services.js";
 
 export async function registroResenia(req, res, next) {
@@ -35,6 +36,15 @@ export async function eliminacionResenia(req, res, next) {
         res.status(500).json({ error: error.message })
     }
 }
+
+export async function listarResenias(req, res) {
+    try {
+      const resenias = await obtenerResenias();
+      res.status(200).json(resenias);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 
 export async function likeResenia(req, res, next) {
     try {
