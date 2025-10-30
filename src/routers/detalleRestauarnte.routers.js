@@ -5,6 +5,6 @@ import { validationRequest } from "../middlewares/validatorDTO.js";
 
 const router = Router();
 
-router.get("/:id/detalle", autenticacionMiddleware,validationRequest, detalleRestaurante);
+router.get("/:id/detalle",validationRequest, detalleRestaurante);
 
 export default router;

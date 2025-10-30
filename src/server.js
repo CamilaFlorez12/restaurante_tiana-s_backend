@@ -10,6 +10,7 @@ import platosRouters from "./routers/platos.routers.js";
 import reseniasRouters from "./routers/resenias.routers.js";
 import detallesRestauranteRouters from "./routers/detalleRestauarnte.routers.js"
 import passport from "passport";
+import { limiterPeticiones } from "./config/limiters.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -23,11 +24,13 @@ app.use(cors({
     credentials:false
 }));
 
-app.use("/usuarios",usuariosRouters);
-app.use("/restaurantes",restaurantesRouters);
-app.use("/platos",platosRouters);
-app.use("/resenias",reseniasRouters);
-app.use("/detallesRestaurante",detallesRestauranteRouters);
+app.use(limiterPeticiones);
+
+app.use("/api/v1/usuarios",usuariosRouters);
+app.use("/api/v1/restaurantes",restaurantesRouters);
+app.use("/api/v1/platos",platosRouters);
+app.use("/api/v1/resenias",reseniasRouters);
+app.use("/api/v1/detallesRestaurante",detallesRestauranteRouters);
 
 app.use('/documentation', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
@@ -42,6 +45,6 @@ app.use((req, res)=>{
 
 conectarDB().then(()=>{
     app.listen(port, ()=>{
-        console.log(`API escucaha en://localhost:${port}`)
+        console.log(`API escuchada en://localhost:${port}`)
     })
 })

@@ -239,7 +239,8 @@ async function seed() {
             "registrarResenia",
             "editarResenia",
             "eliminarResenia",
-            "darLikeResenia",
+            "darLike",
+            "votar",
             "verRestaurantes",
             "verPlatos"
           ]

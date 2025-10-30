@@ -61,7 +61,7 @@ export async function listarUsuarios() {
 }
 
 export async function actualizarUsuario(id,datos) {
-    const resultado = await obtenerDB().collection(COLECCION_USUARIOS).findOne({_id:new ObjectId(id)},{$set:datos});
+    const resultado = await obtenerDB().collection(COLECCION_USUARIOS).updateOne({_id:new ObjectId(id)},{$set:datos});
     return resultado.matchedCount > 0;
 }
 

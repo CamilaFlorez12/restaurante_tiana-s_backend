@@ -42,14 +42,17 @@ export async function eliminarResenia(id){
 
 export async function darLikeResenia(reseniaId, usuarioId) {
     if (!ObjectId.isValid(reseniaId)) throw new Error("ID de reseña no válido");
+  if (!usuarioId) throw new Error("usuarioId es requerido");
 
     const resenia = await obtenerDB().collection(COLECCION_RESENIAS).findOne({_id:new ObjectId(reseniaId)});
     if(!resenia) throw new Error("Reseña no encontrada");
 
-    if(resenia.usuarioId == usuarioId){
+    if(resenia.usuarioId.toString() == usuarioId.toString()){
         throw new Error("No puedes dar like a tu propia reseña");
     }
-
+    if (!Array.isArray(resenia.likes)) {
+    resenia.likes = [];
+  }
     const like = resenia.likes?.includes(usuarioId);
     const operacion = like?{$pull:{likes:usuarioId}}:{$addToSet:{likes:usuarioId}};
 
