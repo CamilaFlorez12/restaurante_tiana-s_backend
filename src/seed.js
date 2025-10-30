@@ -230,7 +230,8 @@ async function seed() {
             "eliminarRestaurante",
             "registrarPlato",
             "actualizarPlato",
-            "eliminarPlato"
+            "eliminarPlato",
+            "verResenias"
           ]
         },
         {
