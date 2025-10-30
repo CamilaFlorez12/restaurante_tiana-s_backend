@@ -33,8 +33,8 @@ export async function registrarUsuario(datos) {
         rol
     }
     const resultado = await obtenerDB().collection(COLECCION_USUARIOS).insertOne(usuario);
-    const token = generarToken({_id:resultado.insertedId,rol:rolFinal,correo});
-    return { id: resultado.insertedId, nombre, apellido, correo, rol:rolFinal, token };
+    const token = generarToken({_id:resultado.insertedId,rol:rol,correo});
+    return { id: resultado.insertedId, nombre, apellido, correo, rol:rol, token };
 }
 
 export async function iniciarSesion(correo,contrasenia) {

@@ -90,7 +90,7 @@ export async function listarRestaurantesOrden(tipoOrden) {
         ordenamiento.push({$sort:{totalLikes:-1}});
     }
 
-    const resultado = await await obtenerDB().collection(COLECCION_RESTAURANTES).aggregate(ordenamiento).toArray();
+    const resultado = await obtenerDB().collection(COLECCION_RESTAURANTES).aggregate(ordenamiento).toArray();
     return resultado;
 }
 
