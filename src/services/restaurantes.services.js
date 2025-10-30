@@ -71,19 +71,17 @@ export async function listarRestaurantesOrden(tipoOrden) {
             }
         },
         {
-            $addFields:{
-                promedioCalificacion:{$avg:"$resenias.calificacion"},
-                totalLikes:{
-                    $sum:{
-                        $map:{
-                            input:"$resenias",
-                            as:"r",
-                            in:{$size:"$$r.likes"}
-                        }
-                    }
+            $addFields: {
+              promedioCalificacion: { $avg: "$resenias.calificacion" },
+              totalLikes: {
+                $reduce: {
+                  input: "$resenias",
+                  initialValue: 0,
+                  in: { $add: ["$$value", { $size: "$$this.likes" }] }
                 }
+              }
             }
-        }
+          }
     ];
 
     if(tipoOrden === "ranking"){
