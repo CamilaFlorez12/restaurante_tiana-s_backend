@@ -21,7 +21,7 @@ app.use(cors({
     origin: process.env.FRONTEND_URL,
     methods:["GET","POST","PATCH","DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials:false
+    credentials:true
 }));
 
 app.use(limiterPeticiones);
