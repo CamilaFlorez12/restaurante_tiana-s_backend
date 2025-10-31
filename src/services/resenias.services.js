@@ -6,9 +6,9 @@ dotenv.config();
 const COLECCION_RESENIAS = "resenias";
 
 export async function crearResenia(datos){
-    const {comentario, calificacion, platoId,restauranteId, usuarioId} = datos;
+    const {comentario, calificacion,restauranteId} = datos;
 
-    if(!comentario || !calificacion || !platoId || !usuarioId || !restauranteId){
+    if(!comentario || !calificacion || !restauranteId){
         throw new Error("Falta algún campo");
     }
 
@@ -19,8 +19,6 @@ export async function crearResenia(datos){
     const nuevaResenia = {
         comentario,
         calificacion,
-        platoId,
-        usuarioId,
         restauranteId,
         likes:[],
         fecha: new Date()
