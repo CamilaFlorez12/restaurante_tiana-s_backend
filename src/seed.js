@@ -239,6 +239,7 @@ async function seed() {
           permisos: [
             "registrarResenia",
             "editarResenia",
+            "verResenias",
             "eliminarResenia",
             "darLike",
             "votar",
@@ -251,4 +252,4 @@ async function seed() {
       await obtenerDB().collection("roles").insertMany(roles);
 }
 
-seed();
+seed();
