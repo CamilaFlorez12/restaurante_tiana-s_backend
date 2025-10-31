@@ -211,7 +211,7 @@ Respuesta exitosa (200 OK):
 
 ## 🛠️ Uso con Swagger UI
 Para probar los endpoints directamente desde la interfaz Swagger, visita:
-http://localhost:4000/documentation#/
+http://localhost:4000/documentation
 
 Desde allí, puedes interactuar con la API, enviar solicitudes y ver respuestas en tiempo real.
 
