@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { registrarRestauranteDTO,actualizarRestauranteDTO } from "../dtos/restaurantesDTO.js";
-import { registroRestaurante, verRestaurantes, verUnRestaurante, actualizacionRestaurante, eliminacionRestaurante,obtenerRestaurantesOrdenados,filtroRestaurantesCategoria} from "../controllers/resturantes.controllers.js";
+import { registroRestaurante, verRestaurantes, verUnRestaurante, actualizacionRestaurante, eliminacionRestaurante,obtenerRestaurantesOrdenados,filtroRestaurantesCategoria} from "../controllers/restaurantes.controllers.js";
 import { verificarPermiso } from "../middlewares/verificacionRoles.middleware.js";
 import { autenticacionMiddleware } from "../middlewares/autenticacion.middleware.js";
 import { validationRequest } from "../middlewares/validatorDTO.js";
