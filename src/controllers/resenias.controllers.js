@@ -9,13 +9,27 @@ import {
 } from "../services/resenias.services.js";
 
 export async function registroResenia(req, res, next) {
-    try {
-        const reseniaCreada = await crearResenia(req.body);
-        res.status(201).json(reseniaCreada)
-    } catch (error) {
-        res.status(500).json({ error: error.message })
+  try {
+    // Verificar que el middleware de autenticación haya agregado el usuario
+    if (!req.usuario || !req.usuario._id) {
+      return res.status(401).json({ error: "Usuario no autenticado" });
     }
+
+    const nuevaResenia = {
+      usuario: req.usuario._id, // <-- Agregamos el usuario desde el token
+      restaurante: req.body.restaurante, // <-- Viene del body (frontend)
+      comentario: req.body.comentario,
+      calificacion: req.body.calificacion,
+    };
+
+    const reseniaCreada = await crearResenia(nuevaResenia);
+    res.status(201).json(reseniaCreada);
+  } catch (error) {
+    console.error("❌ Error en registroResenia:", error);
+    res.status(500).json({ error: error.message });
+  }
 }
+
 
 export async function edicionResenia(req, res, next) {
     try {
