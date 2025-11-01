@@ -1,19 +1,62 @@
 import { Router } from "express";
-import { registrarRestauranteDTO,actualizarRestauranteDTO } from "../dtos/restaurantesDTO.js";
-import { registroRestaurante, verRestaurantes, verUnRestaurante, actualizacionRestaurante, eliminacionRestaurante,obtenerRestaurantesOrdenados,filtroRestaurantesCategoria} from "../controllers/restaurantes.controllers.js";
+import {
+  registrarRestauranteDTO,
+  actualizarRestauranteDTO,
+} from "../dtos/restaurantesDTO.js";
+
+import {
+  registroRestaurante,
+  verRestaurantes,
+  verUnRestaurante,
+  actualizacionRestaurante,
+  eliminacionRestaurante,
+  obtenerRestaurantesOrdenados,
+  filtroRestaurantesCategoria,
+} from "../controllers/restaurantes.controllers.js";
+
 import { verificarPermiso } from "../middlewares/verificacionRoles.middleware.js";
 import { autenticacionMiddleware } from "../middlewares/autenticacion.middleware.js";
-import { validationRequest } from "../middlewares/validatorDTO.js";
 
 const router = Router();
 
-router.post("/",autenticacionMiddleware,verificarPermiso("registrarRestaurante"),registrarRestauranteDTO,validationRequest,registroRestaurante);
-router.get("/",validationRequest,verRestaurantes);
-router.get("/orden",validationRequest,obtenerRestaurantesOrdenados);
-router.get("/categoria",validationRequest, filtroRestaurantesCategoria)
-router.get("/:id",validationRequest,verUnRestaurante);
-router.patch("/:id",autenticacionMiddleware,verificarPermiso("actualizarRestaurante"),actualizarRestauranteDTO,validationRequest,actualizacionRestaurante);
-router.delete("/:id",autenticacionMiddleware,verificarPermiso("eliminarRestaurante"),validationRequest,eliminacionRestaurante);
 
-//TODOS LOS PERMISOS SON PARA EL ADMIN
+
+// Obtener todos los restaurantes
+router.get("/", verRestaurantes);
+
+//Obtener restaurantes ordenados (por popularidad o ranking)
+router.get("/orden", obtenerRestaurantesOrdenados);
+
+// Filtrar restaurantes por categoría
+router.get("/categoria", filtroRestaurantesCategoria);
+
+//Obtener un restaurante por ID
+router.get("/:id", verUnRestaurante);
+
+// Registrar nuevo restaurante
+router.post(
+  "/",
+  autenticacionMiddleware,
+  verificarPermiso("registrarRestaurante"),
+  registrarRestauranteDTO,
+  registroRestaurante
+);
+
+// Actualizar restaurante
+router.patch(
+  "/:id",
+  autenticacionMiddleware,
+  verificarPermiso("actualizarRestaurante"),
+  actualizarRestauranteDTO,
+  actualizacionRestaurante
+);
+
+// Eliminar restaurante
+router.delete(
+  "/:id",
+  autenticacionMiddleware,
+  verificarPermiso("eliminarRestaurante"),
+  eliminacionRestaurante
+);
+
 export default router;
