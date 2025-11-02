@@ -8,6 +8,7 @@ import {
   obtenerResenias,
 } from "../services/resenias.services.js";
 
+<<<<<<< HEAD
 // 🔥 CORREGIDO: Ahora extrae usuarioId del token
 export async function registroResenia(req, res) {
   try {
@@ -19,6 +20,38 @@ export async function registroResenia(req, res) {
       const token = authHeader.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
       usuarioId = decoded?.id;
+=======
+export async function registroResenia(req, res, next) {
+  try {
+    // Verificar que el middleware de autenticación haya agregado el usuario
+    if (!req.usuario || !req.usuario._id) {
+      return res.status(401).json({ error: "Usuario no autenticado" });
+    }
+
+    const nuevaResenia = {
+      usuario: req.usuario._id, // <-- Agregamos el usuario desde el token
+      restaurante: req.body.restaurante, // <-- Viene del body (frontend)
+      comentario: req.body.comentario,
+      calificacion: req.body.calificacion,
+    };
+
+    const reseniaCreada = await crearResenia(nuevaResenia);
+    res.status(201).json(reseniaCreada);
+  } catch (error) {
+    console.error("❌ Error en registroResenia:", error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+export async function edicionResenia(req, res, next) {
+    try {
+        const reseniaEditada = await editarResenia(req.params.id, req.body);
+        if (!reseniaEditada) return res.status(404).json({ error: "Reseña no encontrado" });
+        res.status(200).json(reseniaEditada);
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+>>>>>>> 177412e1c887dc93f0c60ddcf861855b887a333e
     }
 
     // Agregar usuarioId a los datos
