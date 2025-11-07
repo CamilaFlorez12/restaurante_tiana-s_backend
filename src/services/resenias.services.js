@@ -44,7 +44,6 @@ export async function eliminarResenia(id) {
   return resultado.deletedCount > 0;
 }
 
-// 🔥 ESTA ES LA FUNCIÓN CORREGIDA
 export async function obtenerResenias() {
   const resenias = await obtenerDB()
     .collection(COLECCION_RESENIAS)
@@ -99,20 +98,17 @@ export async function darLikeResenia(reseniaId, usuarioId) {
   
   if (!resenia) throw new Error("Reseña no encontrada");
 
-  // Convertir usuarioId a string para comparación
   const usuarioIdStr = usuarioId.toString();
   
-  // Verificar que no sea su propia reseña
   if (resenia.usuarioId && resenia.usuarioId.toString() === usuarioIdStr) {
     throw new Error("No puedes dar like a tu propia reseña");
   }
 
-  // Asegurar que likes es un array
   if (!Array.isArray(resenia.likes)) {
     resenia.likes = [];
   }
 
-  // Verificar si ya dio like (comparar como strings)
+ 
   const yaLeDioLike = resenia.likes.some(
     (id) => id.toString() === usuarioIdStr
   );
@@ -140,4 +136,17 @@ export async function calcularRankingPlato(platoId) {
     .toArray();
   
   return resultado[0]?.promedio || 0;
+}
+
+export async function consultarNotificacion(usuarioId) {
+    const notificacion = await obtenerDB().collection(COLECCION_USUARIOS).findOne({_id: new ObjectId(usuarioId)});
+    if(!notificacion) throw new Error("Usuario no encontrado");
+    return notificacion;
+  }
+
+export async function notificacionVista(id){
+    const notificacionVisual = await obtenerDB().collection(COLECCION_USUARIOS).updateOne({_id: new ObjectId(id)},{$set:{visto:true}});
+    return notificacionVisual.matchedCount > 0;
+} {
+  
 }

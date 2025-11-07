@@ -6,6 +6,8 @@ import {
   darLikeResenia,
   calcularRankingPlato,
   obtenerResenias,
+  consultarNotificacion,
+  notificacionVista
 } from "../services/resenias.services.js";
 
 export async function registroResenia(req, res) {
@@ -98,5 +100,25 @@ export async function obtenerRankingPlato(req, res) {
     res.status(200).json({ platoId, promedio });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+}
+
+export async function Notificaciones(req, res, next) {
+    try {
+        const usuario = req.params.id;
+        const notificacion = await consultarNotificacion(usuario);
+        res.status(200).json(notificacion);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export async function NotificacionVista(req, res, next) {
+  try {
+    const notiVista = await notificacionVista(req.params.id, req.body);
+    if(!notiVista) return res.status(404).json({error:"Usuario no encontrado"});
+    res.status(200).json(notiVista);
+  } catch (error) {
+    res.status(500).json({error:error.message});
   }
 }

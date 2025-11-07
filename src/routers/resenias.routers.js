@@ -7,6 +7,9 @@ import {
   likeResenia,
   obtenerRankingPlato,
   listarResenias,
+  Notificaciones,
+  NotificacionVista
+
 } from "../controllers/resenias.controllers.js";
 import { verificarPermiso } from "../middlewares/verificacionRoles.middleware.js";
 import { autenticacionMiddleware } from "../middlewares/autenticacion.middleware.js";
@@ -14,10 +17,8 @@ import { validationRequest } from "../middlewares/validatorDTO.js";
 
 const router = Router();
 
-// 🔥 CAMBIO IMPORTANTE: Listar reseñas ahora es público (sin autenticación obligatoria)
 router.get("/", listarResenias);
 
-// Crear reseña (requiere autenticación)
 router.post(
   "/",
   autenticacionMiddleware,
@@ -27,7 +28,7 @@ router.post(
   registroResenia
 );
 
-// Editar reseña (requiere autenticación)
+
 router.patch(
   "/:id",
   autenticacionMiddleware,
@@ -37,7 +38,7 @@ router.patch(
   edicionResenia
 );
 
-// Eliminar reseña (requiere autenticación)
+
 router.delete(
   "/:id",
   autenticacionMiddleware,
@@ -46,7 +47,7 @@ router.delete(
   eliminacionResenia
 );
 
-// Dar like (requiere autenticación)
+
 router.post(
   "/:id/like",
   autenticacionMiddleware,
@@ -55,7 +56,6 @@ router.post(
   likeResenia
 );
 
-// Obtener ranking de plato
 router.get(
   "/ranking/:platoId",
   autenticacionMiddleware,
@@ -64,4 +64,7 @@ router.get(
   obtenerRankingPlato
 );
 
+router.get("/notificacionesUsuario/:usuarioId",validationRequest,Notificaciones)
+
+router.put("/notificaciones/:id",validationRequest,NotificacionVista)
 export default router;
